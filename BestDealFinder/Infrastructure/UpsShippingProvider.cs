@@ -18,16 +18,16 @@ namespace BestDealFinder.Infrastructure
             new ShippingProviderApiDetails(ResponseTypes.Json, "https://60c629c319aa1e001769eec7.mockapi.io/api/upsPrice", new ApiCredentials("ups___consumer__key", "ups___consumer__secert"));
         public async Task<ShippingCostResponse> FetchShippingCost()
         {
-            var priceResponse = new ShippingCostResponse {ApiName = "UPS"};
+            var priceResponse = new ShippingCostResponse {ProviderName = "UPS"};
             await MakeRequest(() => JsonConvert.SerializeObject(_requestModel), response =>
             {
                 if (response != string.Empty)
                 {
                     dynamic parsedJsonObject = ParseToJsonObject(response);
-                    priceResponse.Amount = Convert.ToDecimal(parsedJsonObject.total) ?? 0.0;
+                    priceResponse.IsSuccess = true;
+                    priceResponse.Amount = Convert.ToDecimal(parsedJsonObject["total"]) ?? 0.0;
                 }
             });
-
             return priceResponse;
         }
     }

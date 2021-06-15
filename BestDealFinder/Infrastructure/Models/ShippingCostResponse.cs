@@ -2,7 +2,8 @@
 {
     public class ShippingCostResponse
     {
-        public string ApiName { get; set; }
+        public bool IsSuccess { get; set; }
+        public string ProviderName { get; set; }
         public decimal Amount { get; set; }
     }
 }

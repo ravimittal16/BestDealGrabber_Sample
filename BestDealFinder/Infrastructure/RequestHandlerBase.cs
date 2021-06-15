@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using BestDealFinder.Infrastructure.Contracts;
 using BestDealFinder.Infrastructure.Models;
 using Newtonsoft.Json;
@@ -31,11 +34,25 @@ namespace BestDealFinder.Infrastructure
             return JObject.Parse(json);
         }
 
+        public string ParseToXml<TObject>(TObject obj)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(TObject));
+            using var stringWriter = new StringWriter();
+            using XmlWriter writer = XmlWriter.Create(stringWriter);
+            xmlSerializer.Serialize(writer, obj);
+            return stringWriter.ToString();
+        }
+
         protected async Task MakeRequest(Func<string> requestData, Action<string> onSuccess)
         {
             try
             {
-                if (ShippingProviderApiDetails == null) throw new ArgumentException("Api details are missing");
+                if (ShippingProviderApiDetails == null)
+                    throw new ArgumentNullException(nameof(ShippingProviderApiDetails));
+                if (string.IsNullOrEmpty(ShippingProviderApiDetails.ApiBaseUrl))
+                {
+                    throw new Exception("Missing API Url");
+                }
                 //if we need to update the request, e.g. attaching specific request headers | credentials.
                 var data = requestData?.Invoke();
                 //  based on response type we can update the media type
