@@ -18,7 +18,7 @@ namespace BestDealFinder.Infrastructure
 
         }
         public override IShippingProviderApiDetails ShippingProviderApiDetails =>
-            new ShippingProviderApiDetails(ResponseTypes.Xml, "https://extendsclass.com/mock/rest/6c3b6b9e3fc6929ef81602faddafd252/fetchShippingCost", new ApiCredentials("ups___consumer__key", "ups___consumer__secert"));
+            new ShippingProviderApiDetails(ResponseTypes.Xml, "https://extendsclass.com/mock/rest/6c3b6b9e3fc6929ef81602faddafd252/fetchShippingCost", new ApiCredentials("usps___consumer__key", "usps___consumer__secert"));
         public async Task<ShippingCostResponse> FetchShippingCost()
         {
             var priceResponse = new ShippingCostResponse { ProviderName = "USPS" };

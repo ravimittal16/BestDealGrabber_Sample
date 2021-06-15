@@ -18,6 +18,7 @@ namespace BestDealFinder
         {
             if (shippingCosts == null || shippingCosts.Length == 0) return null;
             // this could be find with multiple ways e.g. Min() | OrderBy().FirstOrDefault()
+            // USING MIN => shippingCosts.Min(x=> x.Amount);
             var minShippingCost = shippingCosts.OrderBy(x => x.Amount).FirstOrDefault();
             return minShippingCost;
         }

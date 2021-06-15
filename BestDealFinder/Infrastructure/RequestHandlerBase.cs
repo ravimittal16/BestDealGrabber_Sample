@@ -23,22 +23,35 @@ namespace BestDealFinder.Infrastructure
         public HttpClient HttpClient => _httpClient;
         public abstract IShippingProviderApiDetails ShippingProviderApiDetails { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="headerName"></param>
+        /// <param name="headerValue"></param>
         protected void AddRequestHeader(string headerName, string headerValue)
         {
             this.HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private string MediaType =>
             ShippingProviderApiDetails != null && ShippingProviderApiDetails.ResponseType == ResponseTypes.Json
                 ? "application/json"
                 : "application/xml";
 
-        public JObject ParseToJsonObject(string json)
+        protected JObject ParseToJsonObject(string json)
         {
             return JObject.Parse(json);
         }
 
-        public string ParseToXml<TObject>(TObject obj)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TObject"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        protected string ParseToXml<TObject>(TObject obj)
         {
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(TObject));
             using var stringWriter = new StringWriter();
@@ -47,6 +60,12 @@ namespace BestDealFinder.Infrastructure
             return stringWriter.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="requestData"></param>
+        /// <param name="onSuccess"></param>
+        /// <returns></returns>
         protected async Task MakeRequest(Func<string> requestData, Action<string> onSuccess)
         {
             try
@@ -62,7 +81,7 @@ namespace BestDealFinder.Infrastructure
                 //  based on response type we can update the media type
                 _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue(MediaType));
-
+                // request data to post
                 var stringContent = new StringContent(data, Encoding.UTF8, MediaType);
 
                 var response = await _httpClient.PostAsync(new Uri(ShippingProviderApiDetails.ApiBaseUrl), stringContent);
