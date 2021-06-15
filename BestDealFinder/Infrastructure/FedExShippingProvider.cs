@@ -19,7 +19,8 @@ namespace BestDealFinder.Infrastructure
         {
             var priceResponse = new ShippingCostResponse { ProviderName = "FedEx" };
             //=====================================================================================
-            //  We can update the HttpClient, to add API credentials here
+            //  We can update the request, to add API credentials here or any required information
+
             //  AddRequestHeader("consumer__key", ShippingProviderApiDetails.ApiCredentials.ConsumerKey);
             //=====================================================================================
             //we can update the request data here, before sending to api...

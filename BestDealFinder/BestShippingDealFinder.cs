@@ -37,7 +37,7 @@ namespace BestDealFinder
                 {
                     new FedExShippingProvider(shippingDetails),
                     new UpsShippingProvider(shippingDetails),
-                    new UspsShippingProvider(shippingDetails),  //XML
+                    new UspsShippingProvider(shippingDetails), 
                 };
                 var requests = shippingProviders.Select(x => x.FetchShippingCost());
                 var allResponses = await Task.WhenAll(requests);
