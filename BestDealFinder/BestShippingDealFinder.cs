@@ -38,7 +38,8 @@ namespace BestDealFinder
                 {
                     new FedExShippingProvider(shippingDetails),
                     new UpsShippingProvider(shippingDetails),
-                    new UspsShippingProvider(shippingDetails), 
+                    // NOTE : XML API Returns Hardcoded value, please remove it in case you want to have random value
+                    new UspsShippingProvider(shippingDetails),
                 };
                 var requests = shippingProviders.Select(x => x.FetchShippingCost());
                 var allResponses = await Task.WhenAll(requests);
