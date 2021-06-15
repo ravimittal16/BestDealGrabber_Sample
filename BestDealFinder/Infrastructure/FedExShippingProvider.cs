@@ -18,6 +18,10 @@ namespace BestDealFinder.Infrastructure
         public async Task<ShippingCostResponse> FetchShippingCost()
         {
             var priceResponse = new ShippingCostResponse { ProviderName = "FedEx" };
+            //=====================================================================================
+            //  We can update the HttpClient, to add API credentials here
+            //  AddRequestHeader("consumer__key", ShippingProviderApiDetails.ApiCredentials.ConsumerKey);
+            //=====================================================================================
             //we can update the request data here, before sending to api...
             await MakeRequest(() => JsonConvert.SerializeObject(_requestModel), response =>
             {

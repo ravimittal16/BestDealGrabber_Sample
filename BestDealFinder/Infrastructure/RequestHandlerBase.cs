@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BestDealFinder.Infrastructure.Contracts;
+using BestDealFinder.Infrastructure.Models;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -6,10 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using BestDealFinder.Infrastructure.Contracts;
-using BestDealFinder.Infrastructure.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace BestDealFinder.Infrastructure
 {
@@ -23,6 +22,11 @@ namespace BestDealFinder.Infrastructure
 
         public HttpClient HttpClient => _httpClient;
         public abstract IShippingProviderApiDetails ShippingProviderApiDetails { get; }
+
+        protected void AddRequestHeader(string headerName, string headerValue)
+        {
+            this.HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
+        }
 
         private string MediaType =>
             ShippingProviderApiDetails != null && ShippingProviderApiDetails.ResponseType == ResponseTypes.Json

@@ -7,7 +7,7 @@ using BestDealFinder.Infrastructure.Models;
 
 namespace BestDealFinder
 {
-    public class BestShippingDealFinder
+    public class BestShippingDealFinder : IBestPriceFinder
     {
         /// <summary>
         /// This will find the min cost from the list
@@ -32,6 +32,7 @@ namespace BestDealFinder
             try
             {
                 if (shippingDetails == null) throw new ArgumentNullException(nameof(shippingDetails));
+                // In real implementation, this could be resolve via DI, we can find all the providers based on the IShippingProvider interface
                 IShippingProvider[] shippingProviders =
                 {
                     new FedExShippingProvider(shippingDetails),

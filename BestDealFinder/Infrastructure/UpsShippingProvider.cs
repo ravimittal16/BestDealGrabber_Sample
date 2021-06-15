@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using BestDealFinder.Infrastructure.Contracts;
+﻿using BestDealFinder.Infrastructure.Contracts;
 using BestDealFinder.Infrastructure.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace BestDealFinder.Infrastructure
 {
