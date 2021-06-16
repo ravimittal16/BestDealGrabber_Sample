@@ -3,6 +3,7 @@ using BestDealFinder.Infrastructure.Models;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace BestDealFinder.Infrastructure
 {
@@ -15,6 +16,17 @@ namespace BestDealFinder.Infrastructure
         }
         public override IShippingProviderApiDetails ShippingProviderApiDetails =>
             new ShippingProviderApiDetails(ResponseTypes.Json, "https://60c629c319aa1e001769eec7.mockapi.io/api/fexExPrice", new ApiCredentials("consumer__key", "consumer__secert"));
+
+        public override string GetApiAcceptedDataFormat()
+        {
+            //we can update the request data here, before sending to api...
+            dynamic jsonObject = new JObject();
+            jsonObject.contactAddress = JObject.FromObject(_requestModel?.ContactAddress);
+            jsonObject.warehouseAddress = JObject.FromObject(_requestModel?.WarehouseAddress);
+            jsonObject.cartonDeminsions = new JArray(_requestModel?.Dimensions);
+            return jsonObject.ToString();
+        }
+
         public async Task<ShippingCostResponse> FetchShippingCost()
         {
             var priceResponse = new ShippingCostResponse { ProviderName = "FedEx" };
@@ -23,8 +35,8 @@ namespace BestDealFinder.Infrastructure
 
             //  AddRequestHeader("consumer__key", ShippingProviderApiDetails.ApiCredentials.ConsumerKey);
             //=====================================================================================
-            //we can update the request data here, before sending to api...
-            await MakeRequest(() => JsonConvert.SerializeObject(_requestModel), response =>
+            
+            await MakeRequest(response =>
             {
                 //since each api will send different response, we need to handle that parsing to shipping provider level
                 if (response != string.Empty)

@@ -60,13 +60,15 @@ namespace BestDealFinder.Infrastructure
             return stringWriter.ToString();
         }
 
+        public abstract string GetApiAcceptedDataFormat();
+        
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="requestData"></param>
         /// <param name="onSuccess"></param>
         /// <returns></returns>
-        protected async Task MakeRequest(Func<string> requestData, Action<string> onSuccess)
+        protected async Task MakeRequest(Action<string> onSuccess)
         {
             try
             {
@@ -77,7 +79,7 @@ namespace BestDealFinder.Infrastructure
                     throw new Exception("Missing API Url");
                 }
                 //if we need to update the request, e.g. attaching specific request headers | credentials.
-                var data = requestData?.Invoke();
+                var data = GetApiAcceptedDataFormat();
                 //  based on response type we can update the media type
                 _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue(MediaType));

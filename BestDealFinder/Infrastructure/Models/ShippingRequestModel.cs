@@ -5,6 +5,12 @@ namespace BestDealFinder.Infrastructure.Models
 {
     public class ShippingRequestModel : IShippingModel
     {
+        public ShippingRequestModel()
+        {
+            ContactAddress = new AddressModel();
+            WarehouseAddress = new AddressModel();
+            Dimensions = new Dimension[] { };
+        }
         [Required]
         public AddressModel ContactAddress { get; set; }
         [Required]
